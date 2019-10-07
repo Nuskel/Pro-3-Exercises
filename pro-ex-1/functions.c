@@ -5,6 +5,7 @@
 */
 
 #include "functions.h"
+#include "stdio.h"
 
 float calcCredit(float base, float tax, int years)
 {
@@ -20,14 +21,16 @@ float calcCredit(float base, float tax, int years)
 
 float calcAmortizationRate(float amount, float creditTax, float debtTax)
 {
-    return amount * (creditTax / (float) 100 + debtTax / (float) 100);
+    return amount * (creditTax / 100 + debtTax / 100);
 }
 
-float calcBalanceDue(float dueStart, float amortizationRate, float creditTax, int years)
+float calcBalanceDue(float dueStart, float amortizationRate /* s */, float creditTax, int years)
 {
     float be = dueStart - (amortizationRate - dueStart * (creditTax / (float) 100));
 
-    if (years > 0)
+    printf("be nach %i jahren: %f\n", years, be);
+
+    if ((years - 1) > 0)
         be = calcBalanceDue(be, amortizationRate, creditTax, --years);
 
     return be;
